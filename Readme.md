@@ -1,3 +1,2 @@
-Docs for Torchbear
+# Torchbear [Docs](https://foundpatterns.github.io/torchbear-docs/)
 
-https://foundpatterns.github.io/torchbear-docs/index.html
