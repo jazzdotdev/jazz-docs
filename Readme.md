@@ -1,2 +1,2 @@
-# Torchbear [Docs](https://foundpatterns.github.io/torchbear-docs/)
+# [Torchbear Docs](https://foundpatterns.github.io/torchbear-docs/)
 
