@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Module List</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/lua.css">
+</head>
+<body>
+	<pre><code id="1">use rlua::prelude::*;</code><code id="2">use base64;</code><code id="3"></code><code id="4">pub fn init(lua: &amp;Lua) -&gt; crate::Result&lt;()&gt; {</code><code id="5"></code><code id="6">    let module = lua.create_table()?;</code><code id="7"></code><code id="8">    module.set(&quot;encode&quot;, lua.create_function(|_, text: String| {</code><code id="9">        Ok(base64::encode(&amp;text))</code><code id="10">    })?)?;</code><code id="11"></code><code id="12">    module.set(&quot;decode&quot;, lua.create_function(|_, text: String| {</code><code id="13">        let val = base64::decode(&amp;text).map_err(LuaError::external)?;</code><code id="14">        String::from_utf8(val).map_err(LuaError::external)</code><code id="15">    })?)?;</code><code id="16"></code><code id="17">    lua.globals().set(&quot;base64&quot;, module)?;</code><code id="18"></code><code id="19">    Ok(())</code><code id="20">}</code><code id="21"></code><code id="22">#[cfg(test)]</code><code id="23">mod tests {</code><code id="24">    use super::*;</code><code id="25"></code><code id="26">    #[test]</code><code id="27">    fn lua_base64_encode() {</code><code id="28">        let lua = Lua::new();</code><code id="29">        init(&amp;lua).unwrap();</code><code id="30"></code><code id="31">        lua.exec::&lt;_, ()&gt;(r#&quot;</code><code id="32">            local val = base64.encode(&quot;Hello, World!&quot;)</code><code id="33">            assert(val == &quot;SGVsbG8sIFdvcmxkIQ==&quot;)</code><code id="34">        &quot;#, None).unwrap();</code><code id="35">    }</code><code id="36"></code><code id="37">    #[test]</code><code id="38">    fn lua_base64_decode() {</code><code id="39">        let lua = Lua::new();</code><code id="40">        init(&amp;lua).unwrap();</code><code id="41"></code><code id="42">        lua.exec::&lt;_, ()&gt;(r#&quot;</code><code id="43">            local val = base64.decode(&quot;SGVsbG8sIFdvcmxkIQ==&quot;)</code><code id="44">            assert(val == &quot;Hello, World!&quot;)</code><code id="45">        &quot;#, None).unwrap();</code><code id="46">    }</code><code id="47">}</code></pre>
+</body>
+</html>
